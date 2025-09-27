@@ -1,0 +1,125 @@
+import React, { useState } from "react";
+
+const modelNames = ["Innova Zenix"];
+const modelYears = ["2022"];
+const categories = ["Accessories"];
+
+export default function CarUploadForm() {
+  const [image, setImage] = useState(null);
+  const [modelName, setModelName] = useState(modelNames[0]);
+  const [modelYear, setModelYear] = useState(modelYears[0]);
+  const [category, setCategory] = useState(categories[0]);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Lakukan sesuatu dengan data, misal kirim ke backend
+    alert(
+      `Gambar: ${image}\nModel: ${modelName}\nTahun: ${modelYear}\nKategori: ${category}`
+    );
+  };
+
+  return (
+    <div style={styles.container}>
+      <h2>Upload Foto Mobil</h2>
+      <form onSubmit={handleSubmit} style={styles.form}>
+        <div>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            required
+          />
+        </div>
+        {image && (
+          <div style={styles.imagePreview}>
+            <img src={image} alt="Car Preview" style={styles.image} />
+          </div>
+        )}
+        <div style={styles.field}>
+          <label>Model Name:</label>
+          <select
+            value={modelName}
+            onChange={(e) => setModelName(e.target.value)}
+          >
+            {modelNames.map((name) => (
+              <option key={name}>{name}</option>
+            ))}
+          </select>
+        </div>
+        <div style={styles.field}>
+          <label>Model Year:</label>
+          <select
+            value={modelYear}
+            onChange={(e) => setModelYear(e.target.value)}
+          >
+            {modelYears.map((year) => (
+              <option key={year}>{year}</option>
+            ))}
+          </select>
+        </div>
+        <div style={styles.field}>
+          <label>Category:</label>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            {categories.map((cat) => (
+              <option key={cat}>{cat}</option>
+            ))}
+          </select>
+        </div>
+        <button type="submit" style={styles.button}>
+          Submit
+        </button>
+      </form>
+    </div>
+  );
+}
+
+const styles = {
+  container: {
+    maxWidth: 360,
+    margin: "auto",
+    background: "#fff",
+    padding: 20,
+    borderRadius: 16,
+    boxShadow: "0 2px 8px #ccc",
+    fontFamily: "Arial, sans-serif",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 16,
+  },
+  field: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 4,
+  },
+  imagePreview: {
+    margin: "12px 0",
+    textAlign: "center",
+  },
+  image: {
+    maxWidth: "100%",
+    maxHeight: 200,
+    borderRadius: 8,
+    border: "2px solid #eee",
+  },
+  button: {
+    padding: "10px 0",
+    fontSize: 16,
+    background: "#007bff",
+    color: "#fff",
+    border: "none",
+    borderRadius: 6,
+    cursor: "pointer",
+  },
+};
